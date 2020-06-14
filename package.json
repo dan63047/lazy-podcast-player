@@ -6,10 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "buildLinux32": "electron-packager . lazy-podcast-player --platform=linux --arch=ia32 --icon lpp_icon_b.ico",
-    "buildLinux64": "electron-packager . lazy-podcast-player --platform=linux --arch=x64 --icon lpp_icon_b.ico",
-    "buildWin32": "electron-packager . lazy-podcast-player --platform=win32 --arch=ia32 --icon lpp_icon_b.ico",
-    "buildWin64": "electron-packager . lazy-podcast-player --platform=win32 --arch=x64 --icon lpp_icon_b.ico",
+    "buildWin32": "electron-forge package -p win32 -a ia32",
+    "buildWin64": "electron-forge package -p win32 -a x64",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
