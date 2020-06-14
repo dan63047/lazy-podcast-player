@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LazyPodcastPlayer</title>
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <nav class="nav bg-dark">
+		<a class="nav-link active" id="NowPlayingLink" onclick="change_view('NowPlaying')">Сейчас играет</a>
+		<a class="nav-link" id="PodcatsListLink" onclick="change_view('PodcatsList')">Подкасты</a>
+		<a class="nav-link" id="SubsListLink" onclick="change_view('SubsList')">Каналы</a>
+		<a class="nav-link" id="SettingsLink" onclick="change_view('Settings')">Настройки</a>
+	</nav>
+	<div id="NowPlaying" class="viewdiv">
+		<p class="for_img" style="margin-top: calc(25vh - 105px);"><img id="podcastnow_img" src="lpp_icon_w.png" height="256"></p>
+		<h3 id="podcastnow_title" style="text-align: center;">Добро пожаловать в LazyPodcastPlayer</h3>
+		<p id="podcastnow_author" style="text-align: center;">v. 0.0.1</p>
+	</div>
+	<div id="PodcatsList" class="viewdiv">
+		<div class="list-group" style="margin: 5px;">
+			<div class="card-header bg-dark row" style="color: white; margin: 0;"><div class="mr-auto" style="font-size: 19pt;">Подкасты</div><div><button type="button" onclick="UpdatePodcasts()" class="btn btn-primary">Обновить</button></div></div>
+			<ul id="PodcastList" class="list-group list-group-flush"></ul>
+		</div>
+	</div>
+	<div id="SubsList" class="viewdiv">
+		<div class="modal" tabindex="-1" role="dialog" id="DoSub" style="color: black;">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title">Введите URL на RSS канала</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body">
+					<input type="text" class="form-control" id="url" aria-describedby="url">
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+				  <button type="button" class="btn btn-primary" onclick="CheckURL($('#url').val()); setTimeout(CheckSubs, 1000);" >Сохранить</button>
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div class="list-group" style="margin: 5px;">
+			<div class="card-header bg-dark row" style="color: white; margin: 0;">
+				<div class="mr-auto" style="font-size: 19pt;">Подписки</div><div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DoSub">Подписаться</button></div>
+			</div>
+			<ul id="SubList" class="list-group list-group-flush"></ul>
+		</div>
+	</div>
+	<div id="Settings" class="viewdiv">
+		<div class="modal" tabindex="-1" role="dialog" id="DoClear" style="color: black;">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title">Вы действительно хотите сбросить все данные?</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body">
+					<p>Будут утрачены данные о ваших настройках и подписках</p>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+				  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearAllData(); setTimeout(SoftReload, 1000);" >Да</button>
+				</div>
+			  </div>
+			</div>
+		</div>
+		<div class="list-group" style="margin: 5px;">
+			<div class="card-header bg-dark row" style="color: white; margin: 0;"><div class="mr-auto" style="font-size: 19pt;">Настройки</div></div>
+			<ul id="PodcastList" class="list-group list-group-flush">
+				<li class="list-group-item"><div class="mr-auto" style="font-size: 16pt;">Перезагрузить интерфейс</div><button class="btn btn-primary" type="button" onclick="SoftReload()">Перезапуск</button></li>
+				<li class="list-group-item"><div class="mr-auto" style="font-size: 16pt;">Сбросить пользовательские данные</div><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#DoClear">Сброс</button></li>
+			</ul>
+		</div>
+	</div>
+    <footer>
+      	<input type="range" id="progress" onmousedown="stopProgressbar()" onmouseup="rewind()" min="0" max="0" step="0.01"/><br>
+      	<button id="play" onclick="play(); play_button_state()" class="main_buttons"></button>
+		<p id="timecode" onclick="changeTimecode()"></p>
+    </footer>
+  </body>
+  <script type="text/javascript" src="jsmediatags.js"></script>
+  <script src="render.js"></script>
+</html>

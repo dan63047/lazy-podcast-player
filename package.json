@@ -1,0 +1,79 @@
+{
+  "name": "lazy-podcast-player",
+  "productName": "LazyPodcastPlayer",
+  "version": "0.0.1",
+  "description": "My Electron application description",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "buildLinux32": "electron-packager . lazy-podcast-player --platform=linux --arch=ia32 --icon lpp_icon_b.ico",
+    "buildLinux64": "electron-packager . lazy-podcast-player --platform=linux --arch=x64 --icon lpp_icon_b.ico",
+    "buildWin32": "electron-packager . lazy-podcast-player --platform=win32 --arch=ia32 --icon lpp_icon_b.ico",
+    "buildWin64": "electron-packager . lazy-podcast-player --platform=win32 --arch=x64 --icon lpp_icon_b.ico",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint src --color"
+  },
+  "keywords": [],
+  "author": "dan63047",
+  "license": "MIT",
+  "publishName": "LazyPodcastPlayer",
+  "electronVersion": "14.2.1",
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "npm"
+      },
+      "electronWinstallerConfig": {
+        "name": "lazy_podcast_player"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "dan63047",
+        "name": "LazyPodcastPlayer"
+      },
+      "windowsStoreConfig": {
+        "packageName": "lazypodcastplayer",
+        "name": "LazyPodcastPlayer"
+      }
+    }
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "electron": "^9.0.4",
+    "electron-compile": "^6.4.4",
+    "electron-json-storage": "^4.1.8",
+    "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.5.1",
+    "moment": "^2.26.0",
+    "momentjs": "^2.0.0",
+    "popper": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "electron-forge": "^5.2.4",
+    "electron-packager": "^14.2.1",
+    "electron-prebuilt-compile": "8.2.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.20.0"
+  }
+}
