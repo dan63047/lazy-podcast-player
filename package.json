@@ -1,8 +1,8 @@
 {
   "name": "lazy-podcast-player",
   "productName": "LazyPodcastPlayer",
-  "version": "0.0.2",
-  "description": "My Electron application description",
+  "version": "0.2.0",
+  "description": "Podcast player on Electron",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -33,7 +33,8 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "npm"
+        "packageManager": "npm",
+        "icon": "lpp_icon_b.icns"
       },
       "electronWinstallerConfig": {
         "name": "lazy_podcast_player"
@@ -57,15 +58,10 @@
     "electron-json-storage": "^4.1.8",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
-    "moment": "^2.26.0",
     "momentjs": "^2.0.0",
     "popper": "^1.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/node": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",

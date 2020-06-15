@@ -2,6 +2,15 @@ body {
     background-color: black;
     color: #fff;
 }
+.viewdiv::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #000; /* or add it to the track */
+}
+.viewdiv::-webkit-scrollbar-thumb {
+  background: #fff; 
+  border-radius: 5px;
+}
 footer{
     background-color: #343a40;
     position: fixed;
