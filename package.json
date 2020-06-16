@@ -1,7 +1,7 @@
 {
   "name": "lazy-podcast-player",
   "productName": "LazyPodcastPlayer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Podcast player on Electron",
   "main": "src/index.js",
   "scripts": {

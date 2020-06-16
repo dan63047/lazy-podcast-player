@@ -316,7 +316,11 @@ function CheckPodcasts(){
         })
         for(const i in podcasts){
             var author, l;
-            author = podcasts[i].parentNode.getElementsByTagName("itunes:author")[0].childNodes[0].nodeValue;
+            try{
+                author = podcasts[i].parentNode.getElementsByTagName("itunes:author")[0].childNodes[0].nodeValue;
+            }catch(e){
+                author = podcasts[i].parentNode.getElementsByTagName("itunes:name")[0].childNodes[0].nodeValue;
+            }
             l = UsefulTimecode(podcasts[i].getElementsByTagName("itunes:duration")[0].childNodes[0].nodeValue);
             $('#PodcastList').html('<li class="list-group-item"><h3><button class="main_buttons" id="'+i+'" onclick="PlayPodcast(this.id)">'+button_play_svg_black+'</button>'+podcasts[i].getElementsByTagName("title")[0].childNodes[0].nodeValue+'</h3><p>'+l+' ● '+author+' ● '+ReadablePubDate(podcasts[i].getElementsByTagName("pubDate")[0].childNodes[0].nodeValue)+'</p></li>'+$('#PodcastList').html())
         }
@@ -326,9 +330,17 @@ function PlayPodcast(id) {
     if (playing){
         pause();
     }
-    playing_author = podcasts[id].parentNode.getElementsByTagName("itunes:author")[0].childNodes[0].nodeValue;
+    try{
+        playing_author = podcasts[id].parentNode.getElementsByTagName("itunes:author")[0].childNodes[0].nodeValue;
+    }catch(e){
+        playing_author = podcasts[id].parentNode.getElementsByTagName("itunes:name")[0].childNodes[0].nodeValue;
+    }
     playing_title = podcasts[id].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    $("#podcastnow_img").attr('src', podcasts[id].parentNode.getElementsByTagName("itunes:image")[0].getAttribute('href'));
+    try{
+        $("#podcastnow_img").attr('src', podcasts[id].parentNode.getElementsByTagName("itunes:image")[0].getAttribute('href'));
+    }catch(e){
+        $("#podcastnow_img").attr('src', "lpp_icon_w.png");
+    }
     $("#podcastnow_title").html(playing_title);
     $("#podcastnow_author").html(playing_author);
     a.src = podcasts[id].getElementsByTagName("enclosure")[0].getAttribute('url');
