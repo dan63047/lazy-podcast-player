@@ -1,15 +1,15 @@
 {
   "name": "lazy-podcast-player",
   "productName": "LazyPodcastPlayer",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Podcast player on Electron",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
-    "buildWin32": "electron-forge package -p win32 -a ia32",
-    "buildWin64": "electron-forge package -p win32 -a x64",
-    "package": "electron-forge package",
+    "build": "electron-forge package --all",
     "make": "electron-forge make",
+    "makewin32": "electron-forge make -p win32 -a ia32",
+    "makewin64": "electron-forge make -p win32 -a x64",
     "publish": "electron-forge publish",
     "lint": "eslint src --color"
   },
@@ -34,10 +34,12 @@
       },
       "electronPackagerConfig": {
         "packageManager": "npm",
-        "icon": "lpp_icon_b.icns"
+        "icon": "lpp_icon_b.icns",
+        "name": "lazy-podcast-player",
+        "asar": true
       },
       "electronWinstallerConfig": {
-        "name": "lazy_podcast_player"
+        "name": "LazyPodcastPlayer"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
@@ -47,7 +49,7 @@
       },
       "windowsStoreConfig": {
         "packageName": "lazypodcastplayer",
-        "name": "LazyPodcastPlayer"
+        "name": "lazy-podcast-player"
       }
     }
   },
@@ -55,9 +57,10 @@
     "bootstrap": "^4.5.0",
     "electron": "^9.0.4",
     "electron-compile": "^6.4.4",
-    "electron-json-storage": "^4.1.8",
+    "electron-json-storage-sync": "^1.1.1",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.5.1",
+    "jquery-ui-dist": "^1.12.1",
     "momentjs": "^2.0.0",
     "popper": "^1.0.1"
   },
@@ -66,6 +69,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "electron-forge": "^5.2.4",
+    "electron-json-storage-sync": "^1.1.1",
     "electron-packager": "^14.2.1",
     "electron-prebuilt-compile": "8.2.0",
     "eslint": "^3.19.0",

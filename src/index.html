@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title>LazyPodcastPlayer</title>
     <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <nav class="nav bg-dark">
@@ -16,7 +17,7 @@
 	<div id="NowPlaying" class="viewdiv">
 		<p class="for_img" style="margin-top: calc(25vh - 105px);"><img id="podcastnow_img" src="lpp_icon_w.png" height="256"></p>
 		<h3 id="podcastnow_title" style="text-align: center;">Добро пожаловать в LazyPodcastPlayer</h3>
-		<p id="podcastnow_author" style="text-align: center;">v.0.2.1</p>
+		<p id="podcastnow_author" style="text-align: center;">v.0.3.0</p>
 	</div>
 	<div id="PodcatsList" class="viewdiv">
 		<div class="list-group" style="margin: 5px;">
@@ -39,7 +40,7 @@
 				</div>
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
-				  <button type="button" class="btn btn-primary" onclick="CheckURL($('#url').val()); setTimeout(CheckSubs, 1000);" >Сохранить</button>
+				  <button type="button" class="btn btn-primary" onclick="CheckURL($('#url').val());" >Сохранить</button>
 				</div>
 			  </div>
 			</div>
@@ -81,12 +82,12 @@
 		<div class="list-group" style="margin: 5px;">
 			<div class="card-header bg-dark row" style="color: white; margin: 0;"><div class="mr-auto" style="font-size: 19pt;">О программе</div></div>
 			<ul id="PodcastList" class="list-group list-group-flush">
-				<li class="list-group-item"><p>LazyPodcastPlayer v.0.2.1</p><p>Репозиторий: <a href="https://github.com/dan63047/lazy-podcast-player">https://github.com/dan63047/lazy-podcast-player</a><br>Автор: <a href="https://vk.com/dan63047" target="_blank">dan63047</a>, <a href="https://vk.com/shitcoding_studio">ShitCoding Studio</a></p></li>
+				<li class="list-group-item"><p>LazyPodcastPlayer v.0.3.0 (20.06.2020)</p><p>Репозиторий: <a href="https://github.com/dan63047/lazy-podcast-player">https://github.com/dan63047/lazy-podcast-player</a><br>Автор: <a href="https://vk.com/dan63047" target="_blank">dan63047</a>, <a href="https://vk.com/shitcoding_studio">ShitCoding Studio</a></p></li>
 			</ul>
 		</div>
 	</div>
     <footer>
-      	<input type="range" id="progress" onmousedown="stopProgressbar()" onmouseup="rewind()" min="0" max="0" step="0.01"/><br>
+      	<div class="progress"></div>
       	<button id="play" class="main_buttons"></button>
 		<p id="timecode" onclick="changeTimecode()"></p>
     </footer>
