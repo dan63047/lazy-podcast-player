@@ -13,8 +13,17 @@ $('.progress').slider({
     value: 0,
     range: "min",
     slide: rewind,
+    change: rewind,
     disabled: true
   });
+$('#vol_slider').slider({
+    max: 100,
+    value: 100,
+    range: "min",
+    slide: changeVol,
+    change: changeVol
+  });
+
 
 function StoreProgress(podcact){
     var podcasts = storage.get("Podcasts")
@@ -44,23 +53,37 @@ function StoreSetting(setting, value){
 var a = new Audio(),
     podcasts = new Array(),
 	file = a.src,
-	timer = document.getElementById('timecode'),
-	interval, tags, playing = false,
+    timer = document.getElementById('timecode'),
+    h_duration = document.getElementById('timecode_duration'),
+	interval, tags, playing = false, mouse_on_progress = false,
     tc_mode = 0,
     button_play_svg = '<svg class="bi bi-play-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>',
     button_play_svg_black = '<svg class="bi bi-play-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="#000000" xmlns="http://www.w3.org/2000/svg"><path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>',
     button_pause_svg = '<svg class="bi bi-pause-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/></svg>',
     x_svg = '<svg class="bi bi-x" width="1em" height="1em" viewBox="0 0 16 16" fill="#000000" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z"/></svg>',
+    volume_svg = '<svg class="bi bi-volume-up-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/><path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/><path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707z"/><path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/></svg>',
+    volume_muted_svg = '<svg class="bi bi-volume-mute-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06zm7.137 1.596a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708l4-4a.5.5 0 0 1 .708 0z"/><path fill-rule="evenodd" d="M9.146 5.146a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0z"/></svg>',
     playing_title, playing_author, settings = storage.get("Settings");
     a.addEventListener("durationchange", (event) => {$( ".progress" ).slider( "option", "max", a.duration ); $( ".progress" ).slider( "option", "disabled", false );});
     a.addEventListener("ended", (event) => {playing = false; play_button_state(); player(); StoreProgress(playing_title);})
     a.addEventListener("pause", (event) => {clearInterval(interval); interval = undefined; playing = false; play_button_state(); player();});
     a.addEventListener("play", (event) => {if(!interval){interval = setInterval(player, 1000/60);} playing = true; play_button_state();})
+    $("footer").on("mouseover", (event) => {$('#div_vol_slider').css("display", "block"); $("#volume").css("display", "block")})
+    $("footer").on("mouseout", (event) => {$('#div_vol_slider').css("display", "none"); $("#volume").css("display", "none")})
+    $("#progress").on("mouseover", (event) => {mouse_on_progress = true;})
+    $("#progress").on("mouseout", (event) => {mouse_on_progress = false;})
     storage.get("Setting.timecodemode", function(e, d){if(!e){tc_mode = d;}});
     setInterval(function(){StoreProgress(playing_title);}, 5000)
     if(settings['status']){
         if(settings['data']['TimerMode'] != undefined){
             tc_mode = settings['data']['TimerMode']
+        }
+        if(settings['data']['vol'] != undefined){
+            a.volume = settings['data']['vol'] / 100;
+            $('#vol_slider').slider( "value", settings['data']['vol']);
+        }else{
+            $('#vol_slider').val(100);
+            a.volume = 1;
         }
     }
 
@@ -122,6 +145,20 @@ function play_button_state(){
         document.getElementById('play').setAttribute('onclick', 'play(); play_button_state()');
     }
 }
+function vol_button_state(){
+    if (a.muted){
+        $("#volume").html(volume_muted_svg);
+        document.getElementById("volume").setAttribute('onclick', 'mute(false); vol_button_state()')
+    }else{
+        $("#volume").html(volume_svg);
+        document.getElementById("volume").setAttribute('onclick', 'mute(true); vol_button_state()')
+    }
+}
+vol_button_state();
+function mute(state){
+    a.muted = state;
+}
+
 play_button_state();
 var player_function_called_times = 0;
 function player(){
@@ -139,29 +176,14 @@ function player(){
 	//timer
 	switch (tc_mode){
 		case 0:
-			if(timecode >= 60){
-				timer.innerHTML = min_t + ':' + ('0'+sec_t).slice(-2)
-			}else if(timecode >= 1){
-				timer.innerHTML = Math.trunc(timecode)
-			}else{timer.innerHTML = ''}
+			timer.innerHTML = min_t + ':' + ('0'+sec_t).slice(-2)
 			break;
 		case 1:
-			timer.innerHTML = min_t + ':' + ('0'+sec_t).slice(-2)+' / '+ min_d + ':' + ('0'+sec_d).slice(-2)
-			break;
-		case 2:
-			if(rtimecode >= 60){
-				timer.innerHTML = '-' + min_rt + ':' + ('0'+sec_rt).slice(-2)
-			}else if(rtimecode >= 1){
-				timer.innerHTML = '-' + Math.trunc(rtimecode)
-			}else{timer.innerHTML = ''}
+			timer.innerHTML = '-' + min_rt + ':' + ('0'+sec_rt).slice(-2)
             break;
-        case 3:
-			timer.innerHTML = '-' + min_rt + ':' + ('0'+sec_rt).slice(-2)+' / '+ min_d + ':' + ('0'+sec_d).slice(-2)
-			break;
-		case 4:
-			timer.innerHTML = min_t + ':' + ('0'+sec_t).slice(-2)+' / '+ min_d + ':' + ('0'+sec_d).slice(-2)+' (-'+min_rt + ':' + ('0'+sec_rt).slice(-2)+')';
-			break;
-	}
+    }
+    
+    h_duration.innerHTML = min_d + ':' + ('0'+sec_d).slice(-2);
 
     if(playing_title){
         if(playing){
@@ -183,7 +205,7 @@ function player(){
         }
     }
 
-    if(player_function_called_times > 60){
+    if(player_function_called_times > 60 && !mouse_on_progress){
         player_function_called_times = 0;
         $( ".progress" ).slider( "value", a.currentTime );
     }
@@ -211,7 +233,7 @@ function stopProgressbar(){
     interval = undefined;
 }
 function rewind(){
-    if (a.src){
+    if (mouse_on_progress){
         a.currentTime = $('.progress').slider( "value" );
         console.log("rewind")
         if (playing) {
@@ -220,9 +242,14 @@ function rewind(){
         player();
     }
 }
+function changeVol(){
+    a.volume = $('#vol_slider').slider( "value" )/100;
+    console.log("vol: "+a.volume+"; slider: "+$('#vol_slider').slider( "value" ));
+    StoreSetting("vol", $('#vol_slider').slider( "value" ))
+}
 function changeTimecode(){
 	tc_mode++;
-	if(tc_mode == 5){
+	if(tc_mode > 1){
 		tc_mode = 0;
     }
     StoreSetting('TimerMode', tc_mode);
@@ -299,26 +326,30 @@ function CheckSubs(){
 }
 CheckSubs();
 function CheckURL(suburl){
+    $("#invalid-url").css("display", "none");
     var subs = storage.get("Subs");
     var massive_for_json = {}, SubName;
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.responseXML.getElementsByTagName("rss")){
-                SubName = this.responseXML.getElementsByTagName("title")[0].childNodes[0].nodeValue;
-                if(subs['status']){
-                    subs['data'][SubName] ={rss: this.responseText, url: suburl}
-                    storage.set('Subs', subs['data']);
-                }else{
-                    massive_for_json[SubName]={rss: this.responseText, url: suburl}
-                    storage.set('Subs', massive_for_json);
+        if (this.readyState == 4 && this.status == 200 && suburl) {
+            try{
+                if (this.responseXML.getElementsByTagName("rss")){
+                    SubName = this.responseXML.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                    if(subs['status']){
+                        subs['data'][SubName] ={rss: this.responseText, url: suburl}
+                        storage.set('Subs', subs['data']);
+                    }else{
+                        massive_for_json[SubName]={rss: this.responseText, url: suburl}
+                        storage.set('Subs', massive_for_json);
+                    }
                 }
+            }catch(e){
+                $("#invalid-url").css("display", "block");
+                $("#invalid-url").html("Невозможно прочитать канал");
             }
-            else{
-                console.log("not rss");
-            }
-        }else{
-            console.log(this);   
+        }else if(this.status == 404){
+            $("#invalid-url").css("display", "block");
+            $("#invalid-url").html("Ничего не найдено по этой ссылке");
         }
         CheckSubs();
     };

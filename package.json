@@ -1,13 +1,13 @@
 {
   "name": "lazy-podcast-player",
   "productName": "LazyPodcastPlayer",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Podcast player on Electron",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
     "build": "electron-forge package --all",
-    "make": "electron-forge make",
+    "makelinux": "electron-forge make -p linux -a x64",
     "makewin32": "electron-forge make -p win32 -a ia32",
     "makewin64": "electron-forge make -p win32 -a x64",
     "publish": "electron-forge publish",
@@ -55,7 +55,6 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
-    "electron": "^9.0.4",
     "electron-compile": "^6.4.4",
     "electron-json-storage-sync": "^1.1.1",
     "electron-squirrel-startup": "^1.0.0",
@@ -68,6 +67,7 @@
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "electron": "^9.0.5",
     "electron-forge": "^5.2.4",
     "electron-json-storage-sync": "^1.1.1",
     "electron-packager": "^14.2.1",
@@ -76,6 +76,7 @@
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.20.0"
+    "eslint-plugin-react": "^7.20.0",
+    "force": "0.0.3"
   }
 }

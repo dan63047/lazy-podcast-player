@@ -15,9 +15,9 @@
 		<a class="nav-link" id="SettingsLink" onclick="change_view('Settings')">Настройки</a>
 	</nav>
 	<div id="NowPlaying" class="viewdiv">
-		<p class="for_img" style="margin-top: calc(25vh - 105px);"><img id="podcastnow_img" src="lpp_icon_w.png" height="256"></p>
+		<p class="for_img" style="margin-top: calc(25vh - 95px);"><img id="podcastnow_img" src="lpp_icon_w.png" height="256"></p>
 		<h3 id="podcastnow_title" style="text-align: center;">Добро пожаловать в LazyPodcastPlayer</h3>
-		<p id="podcastnow_author" style="text-align: center;">v.0.3.0</p>
+		<p id="podcastnow_author" style="text-align: center;">v.0.4.0</p>
 	</div>
 	<div id="PodcatsList" class="viewdiv">
 		<div class="list-group" style="margin: 5px;">
@@ -36,7 +36,8 @@
 				  </button>
 				</div>
 				<div class="modal-body">
-					<input type="text" class="form-control" id="url" aria-describedby="url">
+					<input type="text" class="form-control" id="url" aria-describedby="url" onchange='$("#invalid-url").css("display", "none");'>
+					<div class="alert alert-danger mb-0 mt-3" id="invalid-url" role="alert" style="display: none;"></div>
 				</div>
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
@@ -82,14 +83,16 @@
 		<div class="list-group" style="margin: 5px;">
 			<div class="card-header bg-dark row" style="color: white; margin: 0;"><div class="mr-auto" style="font-size: 19pt;">О программе</div></div>
 			<ul id="PodcastList" class="list-group list-group-flush">
-				<li class="list-group-item"><p>LazyPodcastPlayer v.0.3.0 (20.06.2020)</p><p>Репозиторий: <a href="https://github.com/dan63047/lazy-podcast-player">https://github.com/dan63047/lazy-podcast-player</a><br>Автор: <a href="https://vk.com/dan63047" target="_blank">dan63047</a>, <a href="https://vk.com/shitcoding_studio">ShitCoding Studio</a></p></li>
+				<li class="list-group-item"><p>LazyPodcastPlayer v.0.4.0 (05.07.2020)</p><p>Репозиторий: <a href="https://github.com/dan63047/lazy-podcast-player">https://github.com/dan63047/lazy-podcast-player</a><br>Автор: <a href="https://vk.com/dan63047" target="_blank">dan63047</a>, <a href="https://vk.com/shitcoding_studio">ShitCoding Studio</a></p></li>
 			</ul>
 		</div>
 	</div>
     <footer>
-      	<div class="progress"></div>
-      	<button id="play" class="main_buttons"></button>
+		<div class="progress" id="progress"></div>
 		<p id="timecode" onclick="changeTimecode()"></p>
+		<button id="volume" class="main_buttons"></button> <div id="div_vol_slider"><div id="vol_slider"></div></div>
+      	<button id="play" style="position: fixed; left: calc(50vw - 22px);" class="main_buttons"></button>
+		<p id="timecode_duration"></p>
     </footer>
   </body>
   <script type="text/javascript" src="render.js"></script>

@@ -12,17 +12,24 @@ body {
   border-radius: 5px;
 }
 footer{
-    background-color: #343a40;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 65px;
+  background-color: #343a40;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 55px;
 }
 .progress{
   width: calc(100% - 10px);
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 5px;
+  overflow: initial;
+}
+#div_vol_slider{
+  width: 50px;
+  margin-top: 11px;
+  float: left;
+  display: none;
 }
 .ui-slider-range { background: #eee!important;}
 .ui-slider-handle { border-color: #343a40!important; border-radius: 15px;}
@@ -35,7 +42,7 @@ P.for_img {
   text-align: center;
  }
 .viewdiv{
-  height: calc(100vh - 105px);
+  height: calc(100vh - 95px);
   overflow-y: auto;
 }
 .inputfile {
@@ -52,9 +59,18 @@ P.for_img {
 .nav-link{
   cursor: pointer;
 }
-#timecode{
+#timecode_duration{
   float: right;
   margin-right: 5px;
+}
+#volume{
+  float: left;
+  margin-left: 10px;
+  display: none;
+}
+#timecode{
+  float: left;
+  margin-left: 5px;
   cursor: pointer;
 }
 #PodcatsList, #SubsList, #Settings{
